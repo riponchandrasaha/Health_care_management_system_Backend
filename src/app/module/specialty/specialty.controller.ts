@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response, } from "express";
+
+import { Request, Response } from "express";
+
+import { sendResponse } from "../../shared/sendResponse";
 import { SpecialtyService } from "./specialty.service";
 import { catchAsync } from "../../shared/CatchAsync";
-import { sendResponse } from "../../shared/sendResponse";
-
 
 const createSpecialty = catchAsync(
     async (req: Request, res: Response) => {
@@ -12,12 +12,12 @@ const createSpecialty = catchAsync(
         sendResponse(res, {
             httpStatusCode: 201,
             success: true,
-            message: 'specialty created successfully',
+            message: 'Specialty created successfully',
             data: result
         });
-
     }
 )
+
 
 const getAllSpecialties = catchAsync(
     async (req: Request, res: Response) => {
@@ -25,7 +25,7 @@ const getAllSpecialties = catchAsync(
         sendResponse(res, {
             httpStatusCode: 200,
             success: true,
-            message: 'specialty fetch successfully',
+            message: 'Specialties fetched successfully',
             data: result
         });
     }
@@ -38,7 +38,7 @@ const deleteSpecialty = catchAsync(
         sendResponse(res, {
             httpStatusCode: 200,
             success: true,
-            message: 'specialty deleted successfully',
+            message: 'Specialty deleted successfully',
             data: result
         });
     }
