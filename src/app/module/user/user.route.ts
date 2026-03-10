@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { validateRequest } from "../../middleware/validateRequest";
+
 import { UserController } from "./user.controller";
 import { createDoctorZodSchema } from "./user.validation";
+import { validateRequest } from "../../middleware/validateRequest";
 
 
 
