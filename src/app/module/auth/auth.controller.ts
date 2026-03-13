@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import status from "http-status";
 import ms, { StringValue } from "ms";
 import { envVars } from "../../config/env";
+import AppError from "../../errorHelpers/AppError";
+import { auth } from "../../lib/auth";
 
 import { sendResponse } from "../../shared/sendResponse";
+import { CookieUtils } from "../../utils/cookie";
 import { tokenUtils } from "../../utils/token";
 import { AuthService } from "./auth.service";
 import { catchAsync } from "../../shared/CatchAsync";
-import AppError from "../../errorHelpers/AppError";
-import { CookieUtils } from "../../utils/cookie";
-import { auth } from "../../lib/auth";
 
 const registerPatient = catchAsync(
     async (req: Request, res: Response) => {
@@ -65,18 +65,21 @@ const loginUser = catchAsync(
         })
     }
 )
+
 const getMe = catchAsync(
     async (req: Request, res: Response) => {
         const user = req.user;
+        console.log({ user });
         const result = await AuthService.getMe(user);
         sendResponse(res, {
             httpStatusCode: status.OK,
             success: true,
-            message: "User profile frtched succesfully",
+            message: "User profile fetched successfully",
             data: result,
         })
     }
 )
+
 const getNewToken = catchAsync(
     async (req: Request, res: Response) => {
         const refreshToken = req.cookies.refreshToken;
@@ -104,6 +107,7 @@ const getNewToken = catchAsync(
         });
     }
 )
+
 const changePassword = catchAsync(
     async (req: Request, res: Response) => {
         const payload = req.body;
@@ -125,6 +129,7 @@ const changePassword = catchAsync(
         });
     }
 )
+
 const logoutUser = catchAsync(
     async (req: Request, res: Response) => {
         const betterAuthSessionToken = req.cookies["better-auth.session_token"];
@@ -153,6 +158,7 @@ const logoutUser = catchAsync(
         });
     }
 )
+
 const verifyEmail = catchAsync(
     async (req: Request, res: Response) => {
         const { email, otp } = req.body;
@@ -165,6 +171,7 @@ const verifyEmail = catchAsync(
         });
     }
 )
+
 const forgetPassword = catchAsync(
     async (req: Request, res: Response) => {
         const { email } = req.body;
@@ -190,6 +197,8 @@ const resetPassword = catchAsync(
         });
     }
 )
+
+// /api/v1/auth/login/google?redirect=/profile
 const googleLogin = catchAsync((req: Request, res: Response) => {
     const redirectPath = req.query.redirect || "/dashboard";
 
@@ -245,7 +254,6 @@ const handleOAuthError = catchAsync((req: Request, res: Response) => {
     res.redirect(`${envVars.FRONTEND_URL}/login?error=${error}`);
 })
 
-
 export const AuthController = {
     registerPatient,
     loginUser,
@@ -258,5 +266,5 @@ export const AuthController = {
     resetPassword,
     googleLogin,
     googleLoginSuccess,
-    handleOAuthError
+    handleOAuthError,
 };
