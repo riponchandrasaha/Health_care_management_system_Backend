@@ -9,6 +9,7 @@ import { AuthService } from "./auth.service";
 import { catchAsync } from "../../shared/CatchAsync";
 import AppError from "../../errorHelpers/AppError";
 import { CookieUtils } from "../../utils/cookie";
+import { auth } from "../../lib/auth";
 
 const registerPatient = catchAsync(
     async (req: Request, res: Response) => {
